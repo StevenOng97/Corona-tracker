@@ -2,6 +2,7 @@ import React from 'react';
 import { CardContent, Typography, Card } from '@material-ui/core';
 import { Skeleton } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import CountUp from 'react-countup';
 import Fade from '@mui/material/Fade';
@@ -22,7 +23,13 @@ const useStyles = makeStyles({
   count: { fontWeight: 'bold', fontSize: 18 },
 });
 
-export default function HighlightCard({ title, count, color, isLoading }) {
+const animations = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
+export default function HighlightCard({ title, count, color, isLoading, key }) {
   const classes = useStyles({ color });
   return (
     <Card className={classes.wrapper}>
@@ -38,15 +45,26 @@ export default function HighlightCard({ title, count, color, isLoading }) {
             style={{ marginBottom: 6 }}
           />
         ) : (
-          <Fade in={true}>
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.count}
+          // <Fade in={true}>
+          <AnimatePresence exitBeforeEnter>
+            <motion.div
+              variants={animations}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 1 }}
+              key={key}
             >
-              <CountUp end={count} separator="," duration={2} />
-            </Typography>
-          </Fade>
+              <Typography
+                variant="body2"
+                component="span"
+                className={classes.count}
+              >
+                <CountUp end={count} separator="," duration={2} />
+              </Typography>
+            </motion.div>
+          </AnimatePresence>
+          // </Fade>
         )}
       </CardContent>
     </Card>

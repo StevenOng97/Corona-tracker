@@ -10,14 +10,21 @@ import CountrySelector from './components/CountrySelector';
 import Summary from './components/Summary';
 import Chart from './components/Chart';
 import { makeStyles } from '@material-ui/core/styles';
+import { motion, AnimatePresence } from 'framer-motion';
 
 moment.locale('en');
+
+const animations = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 const useStyles = makeStyles((theme) => ({
   dangerColor: {
     color: 'red',
-    margin: 0
-  }
+    margin: 0,
+  },
 }));
 
 const initialState = {
@@ -177,9 +184,19 @@ function App() {
         <Summary summary={summary} isLoading={state.isLoading} />
         <Chart data={summary} />
         {summary.length === 0 && (
-          <Typography variant="h4" class={classes.dangerColor}>
-            No Information For This Country
-          </Typography>
+          <AnimatePresence exitBeforeEnter>
+            <motion.div
+              variants={animations}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 1 }}
+            >
+              <Typography variant="h4" class={classes.dangerColor}>
+                No Information For This Country
+              </Typography>
+            </motion.div>
+          </AnimatePresence>
         )}
       </Container>
     </div>

@@ -13,6 +13,7 @@ const Summary = ({ summary, isLoading }) => {
               count={count}
               color={color}
               isLoading={isLoading}
+              key={i}
             />
           </Box>
         </Grid>
