@@ -21,7 +21,7 @@ const CountrySelector = ({ handleChange, countries }) => {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} mt={2}>
       <Grid item xs={4}>
         <FormControl fullWidth className={classes.formControl}>
           <InputLabel className={classes.label} shrink htmlFor="country">
